@@ -81,20 +81,24 @@ def oci_image(name, labels = None, annotations = None, env = None, cmd = None, e
 
     if types.is_list(cmd):
         cmd_label = "_{}_write_cmd".format(name)
+        # Comma delmiit commands, ensuring that all inputs are quoted, and quotes are escaped by double quoting.
+        content = ",".join(["%s" % s.replace('"', '""') for s in cmd])
         write_file(
             name = cmd_label,
             out = "_{}.cmd.txt".format(name),
-            content = [",".join(cmd)],
+            content = [content],
             **forwarded_kwargs,
         )
         cmd = cmd_label
 
     if types.is_list(entrypoint):
         entrypoint_label = "_{}_write_entrypoint".format(name)
+        # Comma delmiit commands, ensuring that all inputs are quoted, and quotes are escaped by double quoting.
+        content = ",".join(["%s" % s.replace('"', '""') for s in entrypoint])
         write_file(
             name = entrypoint_label,
             out = "_{}.entrypoint.txt".format(name),
-            content = [",".join(entrypoint)],
+            content = [content],
             **forwarded_kwargs,
         )
         entrypoint = entrypoint_label

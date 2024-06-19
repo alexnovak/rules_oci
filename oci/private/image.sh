@@ -102,14 +102,12 @@ for ARG in "$@"; do
           done <"${ARG#--annotations-file=}"
           ;;
         (--cmd-file=*)
-          while IFS= read -r in || [ -n "$in" ]; do
-            FIXED_ARGS+=("--cmd=$in")
-          done <"${ARG#--cmd-file=}"
+          in=$(cat <"${ARG#--cmd-file=}")
+          FIXED_ARGS+=("--cmd=$in")
           ;;
         (--entrypoint-file=*)
-          while IFS= read -r in || [ -n "$in" ]; do
-            FIXED_ARGS+=("--entrypoint=$in")
-          done <"${ARG#--entrypoint-file=}"
+          in=$(cat <"${ARG#--entrypoint-file=}")
+          FIXED_ARGS+=("--entrypoint=$in")
           ;;
         (--exposed-ports-file=*)
           while IFS= read -r in || [ -n "$in" ]; do
